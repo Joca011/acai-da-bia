@@ -69,3 +69,10 @@
   clip: rect(0 0 0 0);
   white-space: nowrap;
 }
+
+/* Máscaras do SplitText (GSAP): folga para cedilha e acentos não serem cortados */
+.split-char-mask, .split-word-mask, .split-line-mask {
+  padding: 0.12em 0.04em 0.22em;
+  margin: -0.12em -0.04em -0.22em;
+}
+#topo .split-parent { overflow: visible !important; }
