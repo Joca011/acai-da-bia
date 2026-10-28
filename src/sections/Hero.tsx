@@ -3,11 +3,10 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
 import SplitText from '../components/reactbits/SplitText';
-import BlurText from '../components/reactbits/BlurText';
+import WordsIn from '../components/hero/WordsIn';
 import ShinyText from '../components/reactbits/ShinyText';
 import Magnet from '../components/reactbits/Magnet';
-import RotatingText from '../components/reactbits/RotatingText';
-import CircularText from '../components/reactbits/CircularText';
+import HeroWords from '../components/hero/HeroWords';
 import { assets } from '../lib/assets';
 import { useReducedMotion } from '../lib/useReducedMotion';
 
@@ -48,8 +47,9 @@ export default function Hero() {
       // Entrada: bowl gira e cresce, frutas saem de trás dele.
       const intro = gsap.timeline({ delay: 0.15 });
       intro
-        .from(q('[data-bowl] img'), { scale: 0.55, rotation: -120, autoAlpha: 0, duration: 1.6, ease: 'expo.out' })
-        .from(q('[data-splash] img'), { scale: 0.3, autoAlpha: 0, duration: 1.4, ease: 'expo.out' }, 0.1)
+        // Sem opacidade 0: o bowl é o maior elemento (LCP) e precisa ser pintado logo.
+        .from(q('[data-bowl] img'), { scale: 0.7, rotation: -120, duration: 1.6, ease: 'expo.out' })
+        .from(q('[data-splash] img'), { scale: 0.5, rotation: 20, duration: 1.4, ease: 'expo.out' }, 0.1)
         .from(q('[data-piece] img'), {
           x: (_i, el) => (50 - Number((el as HTMLElement).dataset.x)) * 6,
           y: (_i, el) => (50 - Number((el as HTMLElement).dataset.y)) * 6,
@@ -151,10 +151,15 @@ export default function Hero() {
           {PIECES.map((p, i) => (p.front ? piece(p, i) : null))}
           {!reduced && (
             <div className="absolute right-[8%] top-[2%] z-40 hidden sm:block">
-              <CircularText text="BATIDO NA HORA ✦ AÇAÍ DA BIA ✦ " size={150} fontSize={15} fontWeight={800} letterSpacing={3}
-                color="#F7DEB6" spinDuration={18}>
+              <div className="relative grid h-[150px] w-[150px] place-items-center">
+                <svg viewBox="0 0 200 200" className="absolute inset-0 h-full w-full animate-[spin_18s_linear_infinite]" aria-hidden="true">
+                  <defs><path id="hero-selo" d="M100 100m-82 0a82 82 0 1 1 164 0a82 82 0 1 1-164 0" /></defs>
+                  <text className="fill-pessego" style={{ fontSize: 19, fontWeight: 800, letterSpacing: 4 }}>
+                    <textPath href="#hero-selo">BATIDO NA HORA ✦ AÇAÍ DA BIA ✦ BATIDO NA HORA ✦</textPath>
+                  </text>
+                </svg>
                 <span className="grid h-14 w-14 place-items-center rounded-full bg-coral text-vinho"><svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="11" cy="14" r="6.5" /><path d="M12 7.5c1.2-3 3.8-4.4 6.4-4.1-.7 2.7-3 4.4-6.4 4.1z" /></svg></span>
-              </CircularText>
+              </div>
             </div>
           )}
         </div>
@@ -180,12 +185,8 @@ export default function Hero() {
           {!reduced && (
             <div aria-hidden="true" className="font-display text-5xl font-black leading-[0.95] text-creme [font-variation-settings:'SOFT'_100,'WONK'_1,'opsz'_144] sm:text-7xl lg:text-8xl">
               <SplitText text="O açaí mais" tag="p" textAlign="left" splitType="words, chars" effect="rise" mask delay={28} duration={1.1} trigger="load" className="font-display text-5xl font-black leading-[0.95] text-creme [font-variation-settings:'SOFT'_100,'WONK'_1,'opsz'_144] sm:text-7xl lg:text-8xl" />
-              <RotatingText
-                texts={['vivo', 'cremoso', 'fresquinho', 'gostoso']}
-                mainClassName="inline-flex overflow-hidden rounded-[0.25em] bg-pessego px-[0.18em] pb-[0.08em] text-vinho"
-                staggerDuration={0.025} staggerFrom="last" rotationInterval={2400}
-                transition={{ type: 'spring', damping: 26, stiffness: 380 }}
-              />
+              <HeroWords words={['vivo', 'cremoso', 'fresquinho', 'gostoso']}
+                className="rounded-[0.25em] bg-pessego px-[0.18em] pb-[0.08em] text-vinho" />
               <SplitText text="do Brasil" tag="p" textAlign="left" splitType="words, chars" effect="rise" mask delay={28} duration={1.1} trigger="load" className="font-display text-5xl font-black leading-[0.95] text-creme [font-variation-settings:'SOFT'_100,'WONK'_1,'opsz'_144] sm:text-7xl lg:text-8xl" />
             </div>
           )}
@@ -193,14 +194,7 @@ export default function Hero() {
           {reduced ? (
             <p className="mt-6 max-w-md text-lg text-creme/90 sm:text-xl">{SUBTITLE}</p>
           ) : (
-            <BlurText
-              text={SUBTITLE}
-              animateBy="words"
-              direction="bottom"
-              delay={60}
-              trigger="load"
-              className="mt-6 max-w-md text-lg text-creme/90 sm:text-xl"
-            />
+            <WordsIn text={SUBTITLE} className="mt-6 max-w-md text-lg text-creme/90 sm:text-xl" />
           )}
 
           <div className="mt-9 flex flex-wrap items-center gap-3 sm:gap-4">

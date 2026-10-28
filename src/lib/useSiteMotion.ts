@@ -9,11 +9,15 @@ gsap.registerPlugin(ScrollTrigger);
 export function useSiteMotion(reduced: boolean) {
   useEffect(() => {
     if (reduced) return;
-    const lenis = new Lenis({ lerp: 0.1, anchors: { offset: -70 } });
-    lenis.on('scroll', ScrollTrigger.update);
-    const tick = (t: number) => lenis.raf(t * 1000);
-    gsap.ticker.add(tick);
-    gsap.ticker.lagSmoothing(0);
+    // Rolagem suave só com mouse/trackpad; no touch a rolagem nativa é mais leve e fluida.
+    const fine = window.matchMedia('(pointer: fine)').matches;
+    const lenis = fine ? new Lenis({ lerp: 0.1, anchors: { offset: -70 } }) : null;
+    const tick = (t: number) => lenis?.raf(t * 1000);
+    if (lenis) {
+      lenis.on('scroll', ScrollTrigger.update);
+      gsap.ticker.add(tick);
+      gsap.ticker.lagSmoothing(0);
+    }
 
     const ctx = gsap.context(() => {
       const scope = 'main > section:not(#topo)';
@@ -45,14 +49,14 @@ export function useSiteMotion(reduced: boolean) {
     });
 
     const refresh = () => ScrollTrigger.refresh();
+    refresh();
     window.addEventListener('load', refresh);
-    const t = setTimeout(refresh, 800);
+    const t = setTimeout(refresh, 1200);
     return () => {
       clearTimeout(t);
       window.removeEventListener('load', refresh);
       ctx.revert();
-      gsap.ticker.remove(tick);
-      lenis.destroy();
+      if (lenis) { gsap.ticker.remove(tick); lenis.destroy(); }
     };
   }, [reduced]);
 }

@@ -1,25 +1,26 @@
+import { Suspense, lazy } from 'react';
+import SiteMotion from './lib/SiteMotion';
 import Header from './sections/Header';
 import Hero from './sections/Hero';
-import Marquee from './sections/Marquee';
-import Historia from './sections/Historia';
-import Origem from './sections/Origem';
-import Cardapio from './sections/Cardapio';
-import Extras from './sections/Extras';
-import Delivery from './sections/Delivery';
-import Numeros from './sections/Numeros';
-import Sustentabilidade from './sections/Sustentabilidade';
-import Avaliacoes from './sections/Avaliacoes';
-import Lojas from './sections/Lojas';
-import Fidelidade from './sections/Fidelidade';
-import Franquia from './sections/Franquia';
-import Footer from './sections/Footer';
-import { useSiteMotion } from './lib/useSiteMotion';
 import ClickSpark from './components/reactbits/ClickSpark';
 import { useReducedMotion } from './lib/useReducedMotion';
 
+const Marquee = lazy(() => import('./sections/Marquee'));
+const Historia = lazy(() => import('./sections/Historia'));
+const Origem = lazy(() => import('./sections/Origem'));
+const Cardapio = lazy(() => import('./sections/Cardapio'));
+const Extras = lazy(() => import('./sections/Extras'));
+const Delivery = lazy(() => import('./sections/Delivery'));
+const Numeros = lazy(() => import('./sections/Numeros'));
+const Sustentabilidade = lazy(() => import('./sections/Sustentabilidade'));
+const Avaliacoes = lazy(() => import('./sections/Avaliacoes'));
+const Lojas = lazy(() => import('./sections/Lojas'));
+const Fidelidade = lazy(() => import('./sections/Fidelidade'));
+const Franquia = lazy(() => import('./sections/Franquia'));
+const Footer = lazy(() => import('./sections/Footer'));
+
 export default function App() {
   const reduced = useReducedMotion();
-  useSiteMotion(reduced);
   const coarse = typeof window !== 'undefined' && window.matchMedia('(pointer: coarse)').matches;
 
   return (
@@ -39,20 +40,25 @@ export default function App() {
       <Header />
       <main id="conteudo">
         <Hero />
-        <Marquee />
-        <Historia />
-        <Origem />
-        <Cardapio />
-        <Extras />
-        <Delivery />
-        <Numeros />
-        <Sustentabilidade />
-        <Avaliacoes />
-        <Lojas />
-        <Fidelidade />
-        <Franquia />
+        <Suspense fallback={<div className="min-h-[100svh] bg-creme" />}>
+          <Marquee />
+          <Historia />
+          <Origem />
+          <Cardapio />
+          <Extras />
+          <Delivery />
+          <Numeros />
+          <Sustentabilidade />
+          <Avaliacoes />
+          <Lojas />
+          <Fidelidade />
+          <Franquia />
+          <SiteMotion reduced={reduced} />
+        </Suspense>
       </main>
-      <Footer />
+      <Suspense fallback={null}>
+        <Footer />
+      </Suspense>
     </ClickSpark>
   );
 }
