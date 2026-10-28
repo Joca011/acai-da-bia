@@ -149,19 +149,6 @@ export default function Hero() {
             </div>
           </div>
           {PIECES.map((p, i) => (p.front ? piece(p, i) : null))}
-          {!reduced && (
-            <div className="absolute right-[8%] top-[2%] z-40 hidden sm:block">
-              <div className="relative grid h-[150px] w-[150px] place-items-center">
-                <svg viewBox="0 0 200 200" className="absolute inset-0 h-full w-full animate-[spin_18s_linear_infinite]" aria-hidden="true">
-                  <defs><path id="hero-selo" d="M100 100m-82 0a82 82 0 1 1 164 0a82 82 0 1 1-164 0" /></defs>
-                  <text className="fill-pessego" style={{ fontSize: 19, fontWeight: 800, letterSpacing: 4 }}>
-                    <textPath href="#hero-selo">BATIDO NA HORA ✦ AÇAÍ DA BIA ✦ BATIDO NA HORA ✦</textPath>
-                  </text>
-                </svg>
-                <span className="grid h-14 w-14 place-items-center rounded-full bg-coral text-vinho"><svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="11" cy="14" r="6.5" /><path d="M12 7.5c1.2-3 3.8-4.4 6.4-4.1-.7 2.7-3 4.4-6.4 4.1z" /></svg></span>
-              </div>
-            </div>
-          )}
         </div>
       </div>
 
