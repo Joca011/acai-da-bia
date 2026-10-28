@@ -208,17 +208,6 @@ export default function Hero() {
         </div>
       </div>
 
-      {/* Indicador de rolagem */}
-      <a
-        href="#sobre"
-        className="absolute bottom-6 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-2 text-xs font-bold uppercase tracking-[0.25em] text-pessego sm:flex"
-      >
-        Role
-        <span aria-hidden="true" className="h-10 w-[2px] overflow-hidden rounded bg-pessego/30">
-          <span className="block h-1/2 w-full animate-[desce_1.6s_ease-in-out_infinite] bg-pessego motion-reduce:animate-none" />
-        </span>
-      </a>
-      <style>{`@keyframes desce{0%{transform:translateY(-100%)}100%{transform:translateY(200%)}}`}</style>
     </section>
   );
 }
