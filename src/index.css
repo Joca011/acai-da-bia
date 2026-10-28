@@ -1,0 +1,71 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+  body {
+    @apply bg-creme font-sans text-vinho antialiased;
+  }
+  h1,
+  h2,
+  h3 {
+    @apply font-display;
+    font-variation-settings: 'SOFT' 100, 'WONK' 1, 'opsz' 96;
+    letter-spacing: -0.01em;
+  }
+  :focus-visible {
+    outline: 3px solid #f7deb6;
+    outline-offset: 3px;
+    border-radius: 6px;
+    box-shadow: 0 0 0 6px #6b0f32;
+  }
+  ::selection {
+    background: #8e3b7a;
+    color: #fbf6ea;
+  }
+}
+
+@layer components {
+  .container-site {
+    @apply mx-auto w-full max-w-site px-4 sm:px-6 lg:px-8;
+  }
+  .eyebrow {
+    @apply text-xs font-bold uppercase tracking-[0.25em];
+  }
+  .section-title {
+    @apply font-display text-4xl font-black leading-[1.02] sm:text-5xl lg:text-6xl;
+  }
+  .btn {
+    @apply inline-flex min-h-[48px] items-center justify-center gap-2 rounded-full px-6 py-3 text-base font-bold transition-colors duration-200;
+  }
+  .btn-primary {
+    @apply btn bg-pessego text-vinho hover:bg-white;
+  }
+  .btn-outline {
+    @apply btn border-2 border-pessego text-pessego hover:bg-pessego hover:text-vinho;
+  }
+  .btn-vinho {
+    @apply btn bg-vinho text-creme hover:bg-vinho-escuro;
+  }
+  .card {
+    @apply rounded-4xl bg-white/70 p-6 shadow-[0_20px_60px_-30px_rgba(107,15,50,0.45)] ring-1 ring-vinho/10;
+  }
+}
+
+.sr-only-focusable:not(:focus) {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
